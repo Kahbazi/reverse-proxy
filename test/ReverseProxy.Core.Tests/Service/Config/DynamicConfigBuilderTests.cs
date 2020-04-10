@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Options;
 using Microsoft.ReverseProxy.Core.Abstractions;
 using Microsoft.ReverseProxy.Core.ConfigModel;
 using Moq;
@@ -124,6 +125,7 @@ namespace Microsoft.ReverseProxy.Core.Service.Tests
             Mock<IRouteValidator>()
                 .Setup(r => r.ValidateRoute(It.IsAny<ParsedRoute>(), errorReporter))
                 .Returns(true);
+            Provide(Options.Create(new DynamicConfigBuilderOptions()));
 
             // Act
             var configManager = Create<DynamicConfigBuilder>();
@@ -151,6 +153,7 @@ namespace Microsoft.ReverseProxy.Core.Service.Tests
             Mock<IRoutesRepo>()
                 .Setup(r => r.GetRoutesAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { route1 });
+            Provide(Options.Create(new DynamicConfigBuilderOptions()));
 
             var parsedRoute1 = new ParsedRoute();
 
@@ -178,6 +181,7 @@ namespace Microsoft.ReverseProxy.Core.Service.Tests
             Mock<IRoutesRepo>()
                 .Setup(r => r.GetRoutesAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { route1 });
+            Provide(Options.Create(new DynamicConfigBuilderOptions()));
 
             var parsedRoute1 = new ParsedRoute();
 
