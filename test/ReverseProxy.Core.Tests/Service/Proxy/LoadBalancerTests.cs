@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -21,7 +21,7 @@ namespace Microsoft.ReverseProxy.Core.Service.Proxy.Tests
             var options = new BackendConfig.BackendLoadBalancingOptions(BackendConfig.BackendLoadBalancingOptions.LoadBalancingMode.First);
 
             // Act
-            var result = loadBalancer.PickEndpoint(endpoints, endpoints, in options);
+            var result = loadBalancer.PickEndpoint(endpoints, in options);
 
             // Assert
             result.Should().BeNull();
@@ -40,7 +40,7 @@ namespace Microsoft.ReverseProxy.Core.Service.Proxy.Tests
             var options = new BackendConfig.BackendLoadBalancingOptions(BackendConfig.BackendLoadBalancingOptions.LoadBalancingMode.First);
 
             // Act
-            var result = loadBalancer.PickEndpoint(endpoints, endpoints, in options);
+            var result = loadBalancer.PickEndpoint(endpoints, in options);
 
             // Assert
             result.Should().BeSameAs(endpoints[0]);
@@ -55,10 +55,10 @@ namespace Microsoft.ReverseProxy.Core.Service.Proxy.Tests
             var options = new BackendConfig.BackendLoadBalancingOptions((BackendConfig.BackendLoadBalancingOptions.LoadBalancingMode)(-1));
 
             // Act
-            Action action = () => loadBalancer.PickEndpoint(endpoints, endpoints, in options);
+            Action action = () => loadBalancer.PickEndpoint(endpoints, in options);
 
             // Assert
-            action.Should().ThrowExactly<ReverseProxyException>()
+            action.Should().ThrowExactly<NotSupportedException>()
                 .Which.Message.Should().Be("Load balancing mode '-1' is not supported.");
         }
     }
