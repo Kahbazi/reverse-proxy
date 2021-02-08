@@ -121,7 +121,7 @@ namespace Microsoft.ReverseProxy.ServiceFabric
                     {
                         metadata.Add(keyRemainder.ToString(), kvp.Value);
                     }
-                    else if (ContainsKey("MatchHeaders.", routeLabelKey, out keyRemainder)) 
+                    else if (ContainsKey("MatchHeaders.", routeLabelKey, out keyRemainder))
                     {
                         var headerIndexLength = keyRemainder.IndexOf('.');
                         if (headerIndexLength == -1)
@@ -134,17 +134,17 @@ namespace Microsoft.ReverseProxy.ServiceFabric
                         {
                             throw new ConfigException($"Invalid header matching index '{headerIndex}', should only contain alphanumerical characters, underscores or hyphens.");
                         }
-                        if (!headerMatches.ContainsKey(headerIndex)) 
+                        if (!headerMatches.ContainsKey(headerIndex))
                         {
                             headerMatches.Add(headerIndex, new RouteHeaderFields());
                         }
 
                         var propertyName = keyRemainder.Slice(headerIndexLength + 1);
-                        if (propertyName.Equals("Name", StringComparison.Ordinal)) 
+                        if (propertyName.Equals("Name", StringComparison.Ordinal))
                         {
                             headerMatches[headerIndex].Name = kvp.Value;
-                        } 
-                        else if (propertyName.Equals("Values", StringComparison.Ordinal)) 
+                        }
+                        else if (propertyName.Equals("Values", StringComparison.Ordinal))
                         {
 #if NET5_0
                             headerMatches[headerIndex].Values = kvp.Value.Split(',', StringSplitOptions.TrimEntries);
@@ -154,13 +154,13 @@ namespace Microsoft.ReverseProxy.ServiceFabric
 #error A target framework was added to the project and needs to be added to this condition.
 #endif
                         }
-                        else if (propertyName.Equals("IsCaseSensitive", StringComparison.Ordinal)) 
+                        else if (propertyName.Equals("IsCaseSensitive", StringComparison.Ordinal))
                         {
                             headerMatches[headerIndex].IsCaseSensitive = bool.Parse(kvp.Value);
                         }
-                        else if (propertyName.Equals("Mode", StringComparison.Ordinal)) 
+                        else if (propertyName.Equals("Mode", StringComparison.Ordinal))
                         {
-                            headerMatches[headerIndex].Mode = Enum.Parse<HeaderMatchMode>(kvp.Value);
+                            headerMatches[headerIndex].Mode = Enum.Parse<HeaderMatchMode>(kvp.Value, ignoreCase: true);
                         }
                         else
                         {
@@ -279,7 +279,7 @@ namespace Microsoft.ReverseProxy.ServiceFabric
                     Timeout = GetLabel<TimeSpan?>(labels, "YARP.Backend.HttpRequest.Timeout", null),
                     Version = !string.IsNullOrEmpty(versionLabel) ? Version.Parse(versionLabel + (versionLabel.Contains('.') ? "" : ".0")) : null,
 #if NET
-                    VersionPolicy = !string.IsNullOrEmpty(versionLabel) ? (HttpVersionPolicy)Enum.Parse(typeof(HttpVersionPolicy), versionPolicyLabel) : null
+                    VersionPolicy = !string.IsNullOrEmpty(versionLabel) ? Enum.Parse<HttpVersionPolicy>(versionPolicyLabel, ignoreCase: true) : null
 #endif
                 },
                 HealthCheck = new HealthCheckOptions
@@ -325,7 +325,7 @@ namespace Microsoft.ReverseProxy.ServiceFabric
         private static bool ContainsKey(string expectedKeyName, ReadOnlySpan<char> actualKey, out ReadOnlySpan<char> keyRemainder)
         {
             keyRemainder = default;
-            
+
             if (!actualKey.StartsWith(expectedKeyName, StringComparison.Ordinal))
             {
                 return false;
