@@ -80,7 +80,7 @@ namespace Microsoft.ReverseProxy.Abstractions.Config
         /// Clones the route and adds the transform which will add the Forwarded header as defined by [RFC 7239](https://tools.ietf.org/html/rfc7239).
         /// </summary>
         public static ProxyRoute WithTransformForwarded(this ProxyRoute proxyRoute, bool useHost = true, bool useProto = true,
-            NodeFormat forFormat = NodeFormat.Random, NodeFormat byFormat = NodeFormat.Random, bool append = true)
+            NodeFormat forFormat = NodeFormat.RandomIp, NodeFormat byFormat = NodeFormat.RandomIp, bool append = true)
         {
             var headers = new List<string>();
 
@@ -125,8 +125,8 @@ namespace Microsoft.ReverseProxy.Abstractions.Config
         /// Adds the transform which will add the Forwarded header as defined by [RFC 7239](https://tools.ietf.org/html/rfc7239).
         /// </summary>
         public static TransformBuilderContext AddForwarded(this TransformBuilderContext context,
-            bool useHost = true, bool useProto = true, NodeFormat forFormat = NodeFormat.Random,
-            NodeFormat byFormat = NodeFormat.Random, bool append = true)
+            bool useHost = true, bool useProto = true, NodeFormat forFormat = NodeFormat.RandomIp,
+            NodeFormat byFormat = NodeFormat.RandomIp, bool append = true)
         {
             context.UseDefaultForwarders = false;
             if (byFormat != NodeFormat.None || forFormat != NodeFormat.None || useHost || useProto)

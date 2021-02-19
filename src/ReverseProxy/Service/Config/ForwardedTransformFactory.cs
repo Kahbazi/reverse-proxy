@@ -197,12 +197,12 @@ namespace Microsoft.ReverseProxy.Service.Config
                     if (string.Equals(token, ForKey, StringComparison.OrdinalIgnoreCase))
                     {
                         useFor = true;
-                        forFormat = NodeFormat.Random; // RFC Default
+                        forFormat = NodeFormat.RandomIp; // RFC Default
                     }
                     else if (string.Equals(token, ByKey, StringComparison.OrdinalIgnoreCase))
                     {
                         useBy = true;
-                        byFormat = NodeFormat.Random; // RFC Default
+                        byFormat = NodeFormat.RandomIp; // RFC Default
                     }
                     else if (string.Equals(token, HostKey, StringComparison.OrdinalIgnoreCase))
                     {

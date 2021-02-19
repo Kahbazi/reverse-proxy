@@ -9,11 +9,14 @@ namespace Microsoft.ReverseProxy.Service.RuntimeModel.Transforms
     public enum NodeFormat
     {
         None,
-        Random,
-        RandomAndPort,
+        RandomIp,
+        RandomIpAndPort,
+        RandomIpAndRandomPort,
         Unknown,
         UnknownAndPort,
+        UnknownAndRandomPort,
         Ip,
         IpAndPort,
+        IpAndRandomPort,
     }
 }
